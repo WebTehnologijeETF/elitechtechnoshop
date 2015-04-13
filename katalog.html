@@ -4,6 +4,7 @@
 	    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
         <TITLE>EliTech | Ponuda</TITLE>
         <link rel="stylesheet" type="text/css" href="stil5.css">
+        <script src = "skripta5.js"></script>
 </head>
 
 <body>
@@ -13,7 +14,14 @@
         <a href = "naslovnica.html"><img src="slike/logo.png" alt="logo_pic"></a>
     		<ul class="nav_left">
                 <li><a href = "naslovnica.html">Naslovnica</a></li>
-                <li id="act"><a href = "katalog.html">Katalog</a></li>
+                <li id = "act" class = "opens_menu" onclick = "return prikaziMeniKatalog()" onmouseleave="sakrijMeniKatalog()">Katalog
+                    <ul id="meni_katalog">
+                        <li class = "menu_item_katalog"><a href = "katalog.html">Laptopi</a></li>
+                        <li class = "menu_item_katalog">Televizori</li>
+                        <li class = "menu_item_katalog">Mobiteli</li>
+                        <li class = "menu_item_katalog">Tableti</li>
+                    </ul>
+                </li>
                 <li><a href = "partneri.html">Partneri</a></li>
                 <li><a href = "kontakt.html">Kontakt</a></li>
             </ul>

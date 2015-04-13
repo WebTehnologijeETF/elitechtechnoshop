@@ -6,6 +6,7 @@
 html, body {
     height: 100%;
     background-position: 50% 80%;
+    /*font-family: monospace;*/
 }
 
 #page {
@@ -88,6 +89,8 @@ html, body {
 #act a {
   color: #BCBCBC;
 }
+
+
 .nav_left {
   list-style-type: none;
   float: left;
@@ -283,4 +286,59 @@ td {
 
 #products_h {
   font-size: 20px;
+}
+
+#sign_up_form {
+  margin-top: 30px;
+}
+
+#sign_up_form p {
+  float: right;
+  font-size: 11px;
+  padding-top: 3px;
+  /*border: 1px solid #903939;*/
+  width: 22%;
+}
+
+#sign_up_form div {
+  max-width: 85%;
+  /*border: 1px solid #903939;*/
+}
+
+#sign_up_form label {
+  display: inline-block;
+  float: left;
+  clear: left;
+  text-align: right;
+  min-width: 23%;
+  padding-top: 3px;
+
+} 
+
+#sign_up_form input {
+  width: 49%;
+}
+
+
+
+#sup_sbmt {
+  margin-left: 3px;
+}
+
+#meni_katalog {
+  margin-left: 100px;
+  margin-top: 10px;
+  /*border: 1px solid #903939;*/
+  color: #fff;
+  background-color: #BCBCBC;
+  border-radius: 7px;
+}
+
+#meni_katalog a {
+  color: #fff;
+}
+
+.opens_menu {
+  text-decoration: none;
+  color: #fff;
 }
