@@ -3,9 +3,7 @@
 <head>
 	    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
         <TITLE>EliTech | Registracija</TITLE>
-        <script src = "skripta5.js"></script>
         <link rel="stylesheet" type="text/css" href="stil5.css">
-        
 </head>
 
 <body>
@@ -15,7 +13,7 @@
         <a href = "naslovnica.html"><img src="slike/logo.png" alt="logo_pic"></a>
     		<ul class="nav_left">
                 <li><a href = "naslovnica.html">Naslovnica</a></li>
-                <li id = "zapr" class = "opens_menu" onclick = "return prikaziMeniKatalog()" onmouseleave="sakrijMeniKatalog()">Katalog
+                <li id = "zapr" class = "opens_menu">Katalog
                     <ul id="meni_katalog">
                         <li class = "menu_item_katalog"><a href = "katalog.html">Laptopi</a></li>
                         <li class = "menu_item_katalog">Televizori</li>
@@ -36,41 +34,51 @@
         	<h3 id="form_heading">Registrujte se!</h3>
             <form id = "sign_up_form">
                 <div id = "sup_d1">
-                    <label for="ime">Ime:</label>
+                    <label for="ime">Ime*:</label>
                     <input id="ime" type="text" name="ime_in">
                     <img class = "greska_icon" id ="greska_ime" src = "slike/greska.png" alt = "greska_pic">
                     <p class = "greska_tekst" id ="greska_tekst_ime">Mogu biti samo slova!</p>
                 </div>
                 <div id = "sup_d2">
-                    <label for="prezime">Prezime:</label>
+                    <label for="prezime">Prezime*:</label>
                     <input id="prezime" type="text" name="prezime_in">
                     <img class = "greska_icon" id ="greska_prezime" src = "slike/greska.png" alt = "greska_pic">
                     <p class = "greska_tekst" id ="greska_tekst_prezime">Mogu biti samo slova!</p>
                 </div>
                 <div id = "sup_d3">
-                    <label for="mail">E-mail:</label>
+                    <label for="mail">E-mail*:</label>
                     <input id="mail" type="text" name="mail_in">
                     <img class = "greska_icon" id ="greska_mail" src = "slike/greska.png" alt = "greska_pic">
                     <p class = "greska_tekst" id ="greska_tekst_mail">Netačan format!</p>
                 </div>
                 <div id = "sup_d4">
-                    <label for="pass">Password:</label>
+                    <label for="pass">Šifra*:</label>
                     <input id="pass" type="password" name="pass_in">
                     <img class = "greska_icon" id ="greska_pass" src = "slike/greska.png" alt = "greska_pic">
                     <p class = "greska_tekst" id ="greska_tekst_pass">Minimalno 6 karaktera!</p>
                 </div>
                 <div id = "sup_d5">
-                    <label for="conf_pass">Confirm password:</label>
+                    <label for="conf_pass">Potvrdite šifru*:</label>
                     <input id="conf_pass" type="password" name="pass_conf_in">
                     <img class = "greska_icon" id ="greska_conf_pass" src = "slike/greska.png" alt = "greska_pic">
                     <p class = "greska_tekst" id ="greska_tekst_conf_pass">Šifre nisu iste!</p>
+                </div>
+                <div id = "sup_d7">
+                    <label for="grad">Grad stanovanja:</label>
+                    <input id="grad" type="text" name="grad_in">
+                </div>
+                <div id = "sup_d8">
+                    <label for="br_tel">Broj telefona:</label>
+                    <input id="br_tel" type="text" name="tel_in">
                 </div>
                 <div id = "sup_d6">
                     <label></label>
                     <input id ="sup_sbmt" type="submit" onclick = "return provjeriFormu()" value="Registruj se">
                 </div>
             </form>
-            
+            <br>
+            <br>
+            <h6>*Obavezna polja</h6>
         </div>
     </div>
 </div>
@@ -86,6 +94,6 @@
             <p>Copyright &copy; 2015. EliTech d.o.o.</p>
     </div>
 </div>
-
+<script src = "skripta5.js"></script>
 </body>
 </html>

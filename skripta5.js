@@ -129,3 +129,8 @@ function provjeriFormu () {
 
 	return validno;
 }
+
+
+menu = document.getElementsByClassName('opens_menu')[0];
+menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);
+menu.addEventListener("mouseleave", function(){ sakrijMeniKatalog(); }, false);
