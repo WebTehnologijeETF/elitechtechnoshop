@@ -346,3 +346,18 @@ td {
 #mjestoPBprovjera {
   display: none;
 }
+
+#resultMPF {
+  display: none;
+}
+
+#manage_products_form div {
+  max-width: 85%;
+  border: 1px solid #903939;
+}
+
+#manage_products_form label {
+  min-width: 23%;
+  text-align: right;
+  
+} 

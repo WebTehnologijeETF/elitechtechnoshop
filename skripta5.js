@@ -143,7 +143,18 @@ function provjeriFormu () {
 	return validno;
 }
 
-var ga;
+function prebaci(stranica) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.open();
+			document.write(xmlhttp.responseText);
+			document.close();
+		}
+	}
+	xmlhttp.open("GET",stranica, true);
+	xmlhttp.send();
+}
 
 function webService(grad, pb) {
 	xmlhttp=new XMLHttpRequest();
@@ -151,8 +162,6 @@ function webService(grad, pb) {
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
 
 			var parsirano = JSON.parse(xmlhttp.responseText);
-			//ga = parsirano;
-			//alert(JSON.stringify(parsirano));
 			if(parsirano.hasOwnProperty('greska'))
 				document.getElementById("mjestoPBprovjera").innerHTML = "error";
 			else if(parsirano.hasOwnProperty('ok'))
@@ -184,6 +193,29 @@ function provjeriMjestoPB(grad, pb)	{
 		alert("Dogodila se greska pri slanju!");
 }
 
+/*
+function unesiProizvod() {
+	var forma = document.getElementById('manage_products_form');
+	var brind = "16294";
+	var naziv = forma.naziv_in.value;
+	var url = forma.url_in.value;
+
+
+	var mypostrequest=new XMLHttpRequest();
+	mypostrequest.onreadystatechange=function(){
+ 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+   			document.getElementById("resultMPF").innerHTML=mypostrequest.responseText
+  		}
+ 	}
+	var namevalue=encodeURIComponent(naziv);
+	var urlvalue=encodeURIComponent(url);
+	var brindvalue = encodedURIComponent(brind);
+	var parameters="brindexa="+brindvalue+"&naziv="+namevalue+"&url="+urlvalue;
+	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php", true);
+	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	mypostrequest.send(parameters);
+}
+*/
 
 menu = document.getElementsByClassName('opens_menu')[0];
 menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);

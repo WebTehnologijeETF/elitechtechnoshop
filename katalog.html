@@ -12,26 +12,58 @@
     <div id="header">
         <a href = "naslovnica.html"><img src="slike/logo.png" alt="logo_pic"></a>
     		<ul class="nav_left">
-                <li><a href = "naslovnica.html">Naslovnica</a></li>
+                <li><a onclick = "prebaci('naslovnica.html')">Naslovnica</a></li>
                 <li id = "act" class = "opens_menu">Katalog
                     <ul id="meni_katalog">
-                        <li class = "menu_item_katalog"><a href = "katalog.html">Laptopi</a></li>
+                        <li class = "menu_item_katalog"><a onclick = "prebaci('katalog.html')">Laptopi</a></li>
                         <li class = "menu_item_katalog">Televizori</li>
                         <li class = "menu_item_katalog">Mobiteli</li>
                         <li class = "menu_item_katalog">Tableti</li>
                     </ul>
                 </li>
-                <li><a href = "partneri.html">Partneri</a></li>
-                <li><a href = "kontakt.html">Kontakt</a></li>
+                <li><a onclick = "prebaci('partneri.html')">Partneri</a></li>
+                <li><a onclick = "prebaci('kontakt.html')">Kontakt</a></li>
             </ul>
             <ul class="nav_right">
-                <li><a href = "registracija.html">Registracija</a></li>
-                <li><a href = "prijava.html">Prijava</a></li> 
+                <li><a onclick = "prebaci('registracija.html')">Registracija</a></li>
+                <li><a onclick = "prebaci('prijava.html')">Prijava</a></li> 
             </ul>
     </div>
     <div id="wrapper">
         <div id="content">
             <h3 id="products_h">Kategorija proizvoda</h3>
+            <form id = "manage_products_form">
+                <div id = "mpf_d1">
+                    <label for="naziv">Naziv proizvoda:</label>
+                    <input id="naziv" type="text" name="naziv_in">
+                </div>
+                <div id = "mpf_d2">
+                    <label for="url">Url:</label>
+                    <input id="url" type="text" name="url_in">
+                </div>
+                <div id = "mpf_d3">
+                    <label for="slika_url">Url slike:</label>
+                    <input id="slika_url" type="text" name="slika_url_in">
+                </div>
+                <div id = "mpf_d4">
+                    <label for="opis">Opis:</label>
+                    <input id="opis" type="text" name="opis_in">
+                </div>
+                <div id = "mpf_d5">
+                    <label for="cijena">Cijena proizvoda:</label>
+                    <input id="cijena" type="number" name="cijena_in">
+                </div>
+                <div id = "mpf_d6">
+                    <label for="kolicina">Kolicina:</label>
+                    <input id="kolicina" type="number" name="kolicina_in">
+                </div>
+                <div id = "mpf_d7">
+                    <input type="button" id="unesi_btn"  onclick = "unesiProizvod()" value="Unesi">
+                    <input type="button" id="obrisi_btn"  value="Obrisi">
+                    <input type="button" id="promijeni_btn"  value="Promijeni">
+                </div>
+                <div id="resultMPF"></div>
+            </form>
         	<table class="products">
                 <tr>
                     <td>
