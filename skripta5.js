@@ -36,12 +36,17 @@ function provjeriFormu () {
 	var pass = forma.pass_in.value;
 	var pass_conf = forma.pass_conf_in.value;
 
+	var grad = forma.grad_in.value;
+	var post_broj = forma.post_broj_in.value;
+
 	var validno = true;
 	var validno_ime = true;
 	var validno_prezime = true;
 	var validan_mail = true;
 	var validan_pass = true;
 	var validan_pass_conf = true;
+
+	var validan_grad_pb = true;
 
 	var mail_regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 
@@ -102,6 +107,14 @@ function provjeriFormu () {
 		document.getElementById('greska_tekst_conf_pass').style.display = "block";
 	}
 
+	if(grad != "" || post_broj != "")
+	{
+
+		validan_grad_pb = provjeriMjestoPB(grad, post_broj);
+		if(!validan_grad_pb)
+			validno = false;
+	}
+
 	if(validno_ime) {
 		document.getElementById('greska_ime').style.display = "none";
 		document.getElementById('greska_tekst_ime').style.display = "none";
@@ -128,6 +141,47 @@ function provjeriFormu () {
 	}
 
 	return validno;
+}
+
+var ga;
+
+function webService(grad, pb) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+
+			var parsirano = JSON.parse(xmlhttp.responseText);
+			//ga = parsirano;
+			//alert(JSON.stringify(parsirano));
+			if(parsirano.hasOwnProperty('greska'))
+				document.getElementById("mjestoPBprovjera").innerHTML = "error";
+			else if(parsirano.hasOwnProperty('ok'))
+				document.getElementById("mjestoPBprovjera").innerHTML = "ok";
+			else
+				document.getElementById("mjestoPBprovjera").innerHTML = "doslo je do greske";
+		}
+	}
+	xmlhttp.open("GET", "http://zamger.etf.unsa.ba/wt/postanskiBroj.php?mjesto=" + grad + "&postanskiBroj=" + pb, false);
+	xmlhttp.send();
+}
+
+function provjeriMjestoPB(grad, pb)	{
+	
+	webService(grad, pb);
+	
+
+	if(document.getElementById("mjestoPBprovjera").innerHTML === "error") {
+		document.getElementById('greska_post_broj').style.display = "inline-block";
+		document.getElementById('greska_tekst_post_broj').style.display = "block";
+		return false;
+	}
+	else if(document.getElementById("mjestoPBprovjera").innerHTML === "ok") {
+		document.getElementById('greska_post_broj').style.display = "none";
+		document.getElementById('greska_tekst_post_broj').style.display = "none";
+		return true;
+	}
+	else
+		alert("Dogodila se greska pri slanju!");
 }
 
 

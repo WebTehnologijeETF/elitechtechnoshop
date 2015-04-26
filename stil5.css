@@ -342,3 +342,7 @@ td {
   text-decoration: none;
   color: #fff;
 }
+
+#mjestoPBprovjera {
+  display: none;
+}
