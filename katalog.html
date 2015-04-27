@@ -33,6 +33,10 @@
         <div id="content">
             <h3 id="products_h">Kategorija proizvoda</h3>
             <form id = "manage_products_form">
+                <div id = "mpf_d0">
+                    <label for="id_pr">ID proizvoda:</label>
+                    <input id="id_pr" type="text" name="id_pr_in">
+                </div>
                 <div id = "mpf_d1">
                     <label for="naziv">Naziv proizvoda:</label>
                     <input id="naziv" type="text" name="naziv_in">
@@ -59,8 +63,8 @@
                 </div>
                 <div id = "mpf_d7">
                     <input type="button" id="unesi_btn"  onclick = "unesiProizvod()" value="Unesi">
-                    <input type="button" id="obrisi_btn"  value="Obrisi">
-                    <input type="button" id="promijeni_btn"  value="Promijeni">
+                    <input type="button" id="obrisi_btn" onclick = "obrisiProizvod()" value="Obrisi">
+                    <input type="button" id="promijeni_btn"  onclick = "promjeniProizvod()" value="Promijeni">
                 </div>
                 <div id="resultMPF"></div>
             </form>

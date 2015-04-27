@@ -107,13 +107,7 @@ function provjeriFormu () {
 		document.getElementById('greska_tekst_conf_pass').style.display = "block";
 	}
 
-	if(grad != "" || post_broj != "")
-	{
-
-		validan_grad_pb = provjeriMjestoPB(grad, post_broj);
-		if(!validan_grad_pb)
-			validno = false;
-	}
+	
 
 	if(validno_ime) {
 		document.getElementById('greska_ime').style.display = "none";
@@ -140,7 +134,23 @@ function provjeriFormu () {
 		document.getElementById('greska_tekst_conf_pass').style.display = "none";
 	}
 
-	return validno;
+	if(grad != "" || post_broj != "")
+	{
+		//return provjeriMjestoPB(grad, post_broj, validno);
+		/*
+		validan_grad_pb = provjeriMjestoPB(grad, post_broj);
+		if(!validan_grad_pb)
+			validno = false;*/
+		webService(grad, post_broj, validno);
+	}
+	else {
+		if(validno) {
+			document.getElementById("sign_up_form").submit();
+			//return false;
+		}
+	}
+
+	//return validno;
 }
 
 function prebaci(stranica) {
@@ -156,29 +166,41 @@ function prebaci(stranica) {
 	xmlhttp.send();
 }
 
-function webService(grad, pb) {
+function webService(grad, pb, validno) {
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
 
 			var parsirano = JSON.parse(xmlhttp.responseText);
-			if(parsirano.hasOwnProperty('greska'))
+			if(parsirano.hasOwnProperty('greska')) {
 				document.getElementById("mjestoPBprovjera").innerHTML = "error";
-			else if(parsirano.hasOwnProperty('ok'))
+				document.getElementById('greska_post_broj').style.display = "inline-block";
+				document.getElementById('greska_tekst_post_broj').style.display = "block";
+				//return false;
+			}
+			else if(parsirano.hasOwnProperty('ok')) {
 				document.getElementById("mjestoPBprovjera").innerHTML = "ok";
+				document.getElementById('greska_post_broj').style.display = "none";
+				document.getElementById('greska_tekst_post_broj').style.display = "none";
+				if(validno) {
+					document.getElementById("sign_up_form").submit();
+					//return false;
+				}
+				//return validno;
+			}
 			else
-				document.getElementById("mjestoPBprovjera").innerHTML = "doslo je do greske";
+				alert("doslo je do greske");
 		}
 	}
-	xmlhttp.open("GET", "http://zamger.etf.unsa.ba/wt/postanskiBroj.php?mjesto=" + grad + "&postanskiBroj=" + pb, false);
+	xmlhttp.open("GET", "http://zamger.etf.unsa.ba/wt/postanskiBroj.php?mjesto=" + grad + "&postanskiBroj=" + pb, true);
 	xmlhttp.send();
 }
 
 function provjeriMjestoPB(grad, pb)	{
 	
-	webService(grad, pb);
-	
-
+	return webService(grad, pb);
+	return false;
+	/*
 	if(document.getElementById("mjestoPBprovjera").innerHTML === "error") {
 		document.getElementById('greska_post_broj').style.display = "inline-block";
 		document.getElementById('greska_tekst_post_broj').style.display = "block";
@@ -190,32 +212,78 @@ function provjeriMjestoPB(grad, pb)	{
 		return true;
 	}
 	else
-		alert("Dogodila se greska pri slanju!");
+		alert("Dogodila se greska pri slanju!");*/
 }
 
-/*
+
 function unesiProizvod() {
+
 	var forma = document.getElementById('manage_products_form');
-	var brind = "16294";
 	var naziv = forma.naziv_in.value;
 	var url = forma.url_in.value;
-
+	var proizvod = {
+		naziv: naziv,
+		opis: "opis 1"
+	};
+	alert(naziv);
 
 	var mypostrequest=new XMLHttpRequest();
 	mypostrequest.onreadystatechange=function(){
- 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
-   			document.getElementById("resultMPF").innerHTML=mypostrequest.responseText
+ 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+   			alert("uspjeh");
   		}
  	}
-	var namevalue=encodeURIComponent(naziv);
-	var urlvalue=encodeURIComponent(url);
-	var brindvalue = encodedURIComponent(brind);
-	var parameters="brindexa="+brindvalue+"&naziv="+namevalue+"&url="+urlvalue;
-	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php", true);
+	
+	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
 	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	mypostrequest.send(parameters);
+	mypostrequest.send("akcija=dodavanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+
 }
-*/
+
+
+function obrisiProizvod() {
+
+	var forma = document.getElementById('manage_products_form');
+	var id_pr = forma.id_pr_in.value;
+	var proizvod = {
+		id: id_pr
+	};
+
+	var mypostrequest=new XMLHttpRequest();
+	mypostrequest.onreadystatechange=function(){
+ 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+   			alert("uspjeh");
+  		}
+ 	}
+	
+	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	mypostrequest.send("akcija=brisanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+}
+
+function promjeniProizvod() {
+
+	var forma = document.getElementById('manage_products_form');
+	var id_pr = forma.id_pr_in.value;
+	var naziv = forma.naziv_in.value;
+	var url = forma.url_in.value;
+	var proizvod = {
+		id: id_pr,
+		naziv: naziv,
+		opis: "opis 2"
+	};
+
+	var mypostrequest=new XMLHttpRequest();
+	mypostrequest.onreadystatechange=function(){
+ 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+   			alert("uspjeh");
+  		}
+ 	}
+	
+	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	mypostrequest.send("akcija=promjena" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+}
 
 menu = document.getElementsByClassName('opens_menu')[0];
 menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);
