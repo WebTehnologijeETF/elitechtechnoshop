@@ -220,17 +220,20 @@ function unesiProizvod() {
 
 	var forma = document.getElementById('manage_products_form');
 	var naziv = forma.naziv_in.value;
-	var url = forma.url_in.value;
+	var opis = forma.opis_in.value;
+	var cijena = forma.cijena_in.value;
+	var slika = forma.slika_url_in.value;
 	var proizvod = {
 		naziv: naziv,
-		opis: "opis 1"
+		opis: opis,
+		slika: slika,
+		cijena: cijena
 	};
-	alert(naziv);
 
 	var mypostrequest=new XMLHttpRequest();
 	mypostrequest.onreadystatechange=function(){
  		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
-   			alert("uspjeh");
+   			alert("Uspjesno ste unijeli artikal!");
   		}
  	}
 	
@@ -284,6 +287,46 @@ function promjeniProizvod() {
 	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	mypostrequest.send("akcija=promjena" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
 }
+
+function ucitajProizvode() {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			var lista = JSON.parse(xmlhttp.responseText);
+			populisiTabelu(lista);
+			event.preventDefault();
+		}
+	}
+	xmlhttp.open("GET","http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+	xmlhttp.send();
+}
+
+function populisiTabelu(lista) {
+
+	var i = 0;
+	var zaUbaciti = "";
+	for(var index = 0; index < lista.length; index++) {
+		if(i === 0) {
+			zaUbaciti = zaUbaciti + "<tr>";
+		}
+			
+		zaUbaciti = zaUbaciti + "<td><div class = 'table_product'><a href='#'><img class='product_img' src=" + lista[index].slika + " alt='pr_pic'></a><a href='#'><h4>" + lista[index].naziv + "</h4></a><p class = 'opis'> + " + lista[index].opis + "</p><h3>" + lista[index].cijena + " KM</h3><a href='#'><img class='basket_img' src='slike/kosarica.png' alt='kosarica'></a></div></td>";
+		i += 1;
+		if(i === 3) {
+			i = 0;
+			zaUbaciti = zaUbaciti + "<tr>";
+		}
+	}
+		if(i != 0) {
+			zaUbaciti = zaUbaciti + "<tr>";
+		}
+			
+
+		document.getElementById("tabela_proizvoda").innerHTML = zaUbaciti;
+}
+
+
 
 menu = document.getElementsByClassName('opens_menu')[0];
 menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);

@@ -41,10 +41,6 @@
                     <label for="naziv">Naziv proizvoda:</label>
                     <input id="naziv" type="text" name="naziv_in">
                 </div>
-                <div id = "mpf_d2">
-                    <label for="url">Url:</label>
-                    <input id="url" type="text" name="url_in">
-                </div>
                 <div id = "mpf_d3">
                     <label for="slika_url">Url slike:</label>
                     <input id="slika_url" type="text" name="slika_url_in">
@@ -57,18 +53,15 @@
                     <label for="cijena">Cijena proizvoda:</label>
                     <input id="cijena" type="number" name="cijena_in">
                 </div>
-                <div id = "mpf_d6">
-                    <label for="kolicina">Kolicina:</label>
-                    <input id="kolicina" type="number" name="kolicina_in">
-                </div>
                 <div id = "mpf_d7">
                     <input type="button" id="unesi_btn"  onclick = "unesiProizvod()" value="Unesi">
                     <input type="button" id="obrisi_btn" onclick = "obrisiProizvod()" value="Obrisi">
                     <input type="button" id="promijeni_btn"  onclick = "promjeniProizvod()" value="Promijeni">
+                    <input type="button" id="ucitaj_btn"  onclick = "ucitajProizvode()" value="Ucitaj">
                 </div>
                 <div id="resultMPF"></div>
             </form>
-        	<table class="products">
+        	<table id = "tabela_proizvoda" class="products">
                 <tr>
                     <td>
                         <div class="table_product">
