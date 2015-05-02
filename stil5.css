@@ -353,11 +353,32 @@ td {
 
 #manage_products_form div {
   max-width: 85%;
-  border: 1px solid #903939;
+  /*border: 1px solid #903939;*/
 }
 
 #manage_products_form label {
-  min-width: 23%;
+  display: inline-block;
+  float: left;
+  clear: left;
   text-align: right;
+  min-width: 23%;
+  padding-top: 3px;
   
 } 
+.edit_pr {
+  width: 25%;
+  margin-left: 24%;
+}
+
+#manage_products_form input {
+  width: 49%;
+}
+
+
+#manage_products_form p {
+  float: right;
+  font-size: 11px;
+  padding-top: 3px;
+  /*border: 1px solid #903939;*/
+  width: 22%;
+}

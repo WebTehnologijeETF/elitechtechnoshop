@@ -8,6 +8,9 @@ window.onload = function() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";
 	meni.style.position = "absolute";
+
+
+	ucitajProizvode();
 }
 
 function prikaziMeniKatalog() {
@@ -26,7 +29,89 @@ function sakrijMeniKatalog() {
 	meni.style.display = "none";
 }
 
+function provjeriPodatkeProizvoda(proizvod, tip_akcije) {
 
+	if(tip_akcije === "brisanje") {
+		var istina = false;
+		var id_evi = document.getElementsByClassName("za_prod_id");
+		for(i = 0; i < id_evi.length; i++) {
+			if(id_evi[i].innerHTML === proizvod.id) {
+				istina = true;
+				alert(proizvod.id);
+			}
+		}
+
+		if(istina === false) {
+			document.getElementById('greska_id').style.display = "inline-block";
+			document.getElementById('greska_tekst_id').style.display = "block";
+			return false;
+		}
+		else {
+			document.getElementById('greska_id').style.display = "none";
+			document.getElementById('greska_tekst_id').style.display = "none";
+			return true;
+		}
+	}
+
+	else {
+		var validan_naziv = true;
+		var validna_cijena = true;
+		var validan_id = true
+		var validno = true;
+
+		if(tip_akcije === "izmjena") {
+			var istina = false;
+			var id_evi = document.getElementsByClassName("za_prod_id");
+			for(i = 0; i < id_evi.length; i++) {
+				if(id_evi[i].innerHTML === proizvod.id) {
+					istina = true;
+				}
+			}
+
+			if(istina === false) {
+				document.getElementById('greska_id').style.display = "inline-block";
+				document.getElementById('greska_tekst_id').style.display = "block";
+			}
+			else {
+				document.getElementById('greska_id').style.display = "none";
+				document.getElementById('greska_tekst_id').style.display = "none";
+			}
+			validno = istina;
+			validan_id = istina;
+		}
+
+		if(proizvod.naziv.length === 0) {
+			document.getElementById('greska_naziv').style.display = "inline-block";
+			document.getElementById('greska_tekst_naziv').style.display = "block";
+			validan_naziv = false;
+			validno = false;
+		}
+
+		if(!dobarBroj(proizvod.cijena)) {
+			document.getElementById('greska_cijena').style.display = "inline-block";
+			document.getElementById('greska_tekst_cijena').style.display = "block";
+			validna_cijena = false;
+			validno = false;
+		}
+
+		if(validan_naziv) {
+			document.getElementById('greska_naziv').style.display = "none";
+			document.getElementById('greska_tekst_naziv').style.display = "none";
+		}
+
+		if(validna_cijena) {
+			document.getElementById('greska_cijena').style.display = "none";
+			document.getElementById('greska_tekst_cijena').style.display = "none";
+		}
+
+		return validno;
+
+	}
+}
+
+function dobarBroj(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 function provjeriFormu () {
 	var forma = document.getElementById('sign_up_form');
@@ -160,6 +245,7 @@ function prebaci(stranica) {
 			document.open();
 			document.write(xmlhttp.responseText);
 			document.close();
+			
 		}
 	}
 	xmlhttp.open("GET",stranica, true);
@@ -230,17 +316,19 @@ function unesiProizvod() {
 		cijena: cijena
 	};
 
-	var mypostrequest=new XMLHttpRequest();
-	mypostrequest.onreadystatechange=function(){
- 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
-   			alert("Uspjesno ste unijeli artikal!");
-  		}
- 	}
-	
-	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
-	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	mypostrequest.send("akcija=dodavanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
-
+	if(provjeriPodatkeProizvoda(proizvod, "unos") === true) {
+		var mypostrequest=new XMLHttpRequest();
+		mypostrequest.onreadystatechange=function(){
+	 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+	   			alert("Uspjesno ste unijeli artikal!");
+	   			ucitajProizvode();
+	  		}
+	 	}
+		
+		mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+		mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		mypostrequest.send("akcija=dodavanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+	}
 }
 
 
@@ -252,44 +340,56 @@ function obrisiProizvod() {
 		id: id_pr
 	};
 
-	var mypostrequest=new XMLHttpRequest();
-	mypostrequest.onreadystatechange=function(){
- 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
-   			alert("uspjeh");
-  		}
- 	}
-	
-	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
-	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	mypostrequest.send("akcija=brisanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+	if(provjeriPodatkeProizvoda(proizvod, "brisanje") === true) {
+		var mypostrequest=new XMLHttpRequest();
+		mypostrequest.onreadystatechange=function(){
+ 			if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+	   			alert("Uspjesno ste obrisali proizvod!");
+	   			ucitajProizvode();
+	  		}
+	 	}
+		
+		mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+		mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		mypostrequest.send("akcija=brisanje" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+	}
 }
 
 function promjeniProizvod() {
 
 	var forma = document.getElementById('manage_products_form');
-	var id_pr = forma.id_pr_in.value;
+	var id = forma.id_pr_in.value;
 	var naziv = forma.naziv_in.value;
-	var url = forma.url_in.value;
+	var opis = forma.opis_in.value;
+	var cijena = forma.cijena_in.value;
+	var slika = forma.slika_url_in.value;
 	var proizvod = {
-		id: id_pr,
+		id: id,
 		naziv: naziv,
-		opis: "opis 2"
+		opis: opis,
+		slika: slika,
+		cijena: cijena
 	};
 
-	var mypostrequest=new XMLHttpRequest();
-	mypostrequest.onreadystatechange=function(){
- 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
-   			alert("uspjeh");
-  		}
- 	}
+	if(provjeriPodatkeProizvoda(proizvod, "izmjena") === true) {
+		var mypostrequest=new XMLHttpRequest();
+		mypostrequest.onreadystatechange=function(){
+	 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+	   			alert("Uspjesno ste promjenili proizvod!");
+	   			ucitajProizvode();
+	  		}
+	 	}
+		
+		mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
+		mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		mypostrequest.send("akcija=promjena" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
+	}
 	
-	mypostrequest.open("POST", "http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
-	mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	mypostrequest.send("akcija=promjena" + "&brindexa=16294&proizvod=" + JSON.stringify(proizvod));
 }
 
 function ucitajProizvode() {
 
+	//alert("dfsdf");
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(event){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
@@ -298,11 +398,14 @@ function ucitajProizvode() {
 			event.preventDefault();
 		}
 	}
+
 	xmlhttp.open("GET","http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
 	xmlhttp.send();
+
 }
 
 function populisiTabelu(lista) {
+
 
 	var i = 0;
 	var zaUbaciti = "";
@@ -311,7 +414,7 @@ function populisiTabelu(lista) {
 			zaUbaciti = zaUbaciti + "<tr>";
 		}
 			
-		zaUbaciti = zaUbaciti + "<td><div class = 'table_product'><a href='#'><img class='product_img' src=" + lista[index].slika + " alt='pr_pic'></a><a href='#'><h4>" + lista[index].naziv + "</h4></a><p class = 'opis'> + " + lista[index].opis + "</p><h3>" + lista[index].cijena + " KM</h3><a href='#'><img class='basket_img' src='slike/kosarica.png' alt='kosarica'></a></div></td>";
+		zaUbaciti = zaUbaciti + "<td><div class = 'table_product'><a href='#'><img class='product_img' src=" + lista[index].slika + " alt='pr_pic' onclick = 'ubaciID(" + lista[index].id + ")'></a><a href='#'><h4>" + lista[index].naziv + "</h4></a><p class = 'opis'>" + lista[index].opis + "</p><h3>" + lista[index].cijena + " KM</h3><a href='#'><img class='basket_img' src='slike/kosarica.png' alt='kosarica'></a></div><p class = 'za_prod_id'>" + lista[index].id + "</p></td>";
 		i += 1;
 		if(i === 3) {
 			i = 0;
@@ -324,9 +427,17 @@ function populisiTabelu(lista) {
 			
 
 		document.getElementById("tabela_proizvoda").innerHTML = zaUbaciti;
+		var id_evi = document.getElementsByClassName("za_prod_id");
+		for(i = 0; i < id_evi.length; i++) {
+			id_evi[i].style.display = "none";
+		}
+
 }
 
-
+function ubaciID(id_pr) {
+	var forma = document.getElementById('manage_products_form');
+	forma.id_pr_in.value = id_pr;
+}
 
 menu = document.getElementsByClassName('opens_menu')[0];
 menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);
