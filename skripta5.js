@@ -8,9 +8,21 @@ window.onload = function() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";
 	meni.style.position = "absolute";
+}
 
+function postaviMeni() {
+	var meni = document.getElementById('meni_katalog');
+	meni.style.display = "none";
+	meni.style.position = "absolute";
+}
 
-	ucitajProizvode();
+function sakrijGreske() {
+	var slike = document.getElementsByClassName('greska_icon');
+	var tekstovi = document.getElementsByClassName('greska_tekst');
+	for(i = 0; i < slike.length; i++) {
+		slike[i].style.display = "none";
+		tekstovi[i].style.display = "none";
+	}
 }
 
 function prikaziMeniKatalog() {
@@ -37,7 +49,6 @@ function provjeriPodatkeProizvoda(proizvod, tip_akcije) {
 		for(i = 0; i < id_evi.length; i++) {
 			if(id_evi[i].innerHTML === proizvod.id) {
 				istina = true;
-				alert(proizvod.id);
 			}
 		}
 
@@ -192,8 +203,6 @@ function provjeriFormu () {
 		document.getElementById('greska_tekst_conf_pass').style.display = "block";
 	}
 
-	
-
 	if(validno_ime) {
 		document.getElementById('greska_ime').style.display = "none";
 		document.getElementById('greska_tekst_ime').style.display = "none";
@@ -221,31 +230,26 @@ function provjeriFormu () {
 
 	if(grad != "" || post_broj != "")
 	{
-		//return provjeriMjestoPB(grad, post_broj, validno);
-		/*
-		validan_grad_pb = provjeriMjestoPB(grad, post_broj);
-		if(!validan_grad_pb)
-			validno = false;*/
 		webService(grad, post_broj, validno);
 	}
 	else {
 		if(validno) {
 			document.getElementById("sign_up_form").submit();
-			//return false;
 		}
 	}
-
-	//return validno;
 }
 
 function prebaci(stranica) {
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
-			document.open();
-			document.write(xmlhttp.responseText);
-			document.close();
-			
+			document.getElementById("tijelo").innerHTML = xmlhttp.responseText;
+			postaviMeni();
+			if(stranica === "katalog.html" || stranica === "registracija.html")
+				sakrijGreske();
+			if(stranica === "katalog.html")
+				ucitajProizvode();
+
 		}
 	}
 	xmlhttp.open("GET",stranica, true);
@@ -262,7 +266,6 @@ function webService(grad, pb, validno) {
 				document.getElementById("mjestoPBprovjera").innerHTML = "error";
 				document.getElementById('greska_post_broj').style.display = "inline-block";
 				document.getElementById('greska_tekst_post_broj').style.display = "block";
-				//return false;
 			}
 			else if(parsirano.hasOwnProperty('ok')) {
 				document.getElementById("mjestoPBprovjera").innerHTML = "ok";
@@ -270,9 +273,7 @@ function webService(grad, pb, validno) {
 				document.getElementById('greska_tekst_post_broj').style.display = "none";
 				if(validno) {
 					document.getElementById("sign_up_form").submit();
-					//return false;
 				}
-				//return validno;
 			}
 			else
 				alert("doslo je do greske");
@@ -281,26 +282,6 @@ function webService(grad, pb, validno) {
 	xmlhttp.open("GET", "http://zamger.etf.unsa.ba/wt/postanskiBroj.php?mjesto=" + grad + "&postanskiBroj=" + pb, true);
 	xmlhttp.send();
 }
-
-function provjeriMjestoPB(grad, pb)	{
-	
-	return webService(grad, pb);
-	return false;
-	/*
-	if(document.getElementById("mjestoPBprovjera").innerHTML === "error") {
-		document.getElementById('greska_post_broj').style.display = "inline-block";
-		document.getElementById('greska_tekst_post_broj').style.display = "block";
-		return false;
-	}
-	else if(document.getElementById("mjestoPBprovjera").innerHTML === "ok") {
-		document.getElementById('greska_post_broj').style.display = "none";
-		document.getElementById('greska_tekst_post_broj').style.display = "none";
-		return true;
-	}
-	else
-		alert("Dogodila se greska pri slanju!");*/
-}
-
 
 function unesiProizvod() {
 
@@ -389,7 +370,6 @@ function promjeniProizvod() {
 
 function ucitajProizvode() {
 
-	//alert("dfsdf");
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(event){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
@@ -424,8 +404,7 @@ function populisiTabelu(lista) {
 		if(i != 0) {
 			zaUbaciti = zaUbaciti + "<tr>";
 		}
-			
-
+		
 		document.getElementById("tabela_proizvoda").innerHTML = zaUbaciti;
 		var id_evi = document.getElementsByClassName("za_prod_id");
 		for(i = 0; i < id_evi.length; i++) {
@@ -438,7 +417,3 @@ function ubaciID(id_pr) {
 	var forma = document.getElementById('manage_products_form');
 	forma.id_pr_in.value = id_pr;
 }
-
-menu = document.getElementsByClassName('opens_menu')[0];
-menu.addEventListener("click", function(){ prikaziMeniKatalog(); }, false);
-menu.addEventListener("mouseleave", function(){ sakrijMeniKatalog(); }, false);
