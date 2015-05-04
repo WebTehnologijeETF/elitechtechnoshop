@@ -234,7 +234,10 @@ function provjeriFormu () {
 	}
 	else {
 		if(validno) {
-			document.getElementById("sign_up_form").submit();
+			//document.getElementById("sign_up_form").submit();
+			//forma se ne sumbita jer je ovaj dio zadatak na sljedecoj spirali i bit ce implementiran u php-u
+			alert("Podaci su uspjesno poslani!");
+			forma.reset();
 		}
 	}
 }
@@ -272,7 +275,10 @@ function webService(grad, pb, validno) {
 				document.getElementById('greska_post_broj').style.display = "none";
 				document.getElementById('greska_tekst_post_broj').style.display = "none";
 				if(validno) {
-					document.getElementById("sign_up_form").submit();
+					//document.getElementById("sign_up_form").submit();
+					//forma se ne sumbita jer je ovaj dio zadatak na sljedecoj spirali i bit ce implementiran u php-u
+					alert("Podaci su uspjesno poslani!");
+					document.getElementById('sign_up_form').reset();
 				}
 			}
 			else
@@ -389,7 +395,7 @@ function populisiTabelu(lista) {
 
 	var i = 0;
 	var zaUbaciti = "";
-	for(var index = 0; index < lista.length; index++) {
+	for(var index = lista.length - 1; index >= 0; index--) {
 		if(i === 0) {
 			zaUbaciti = zaUbaciti + "<tr>";
 		}
