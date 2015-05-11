@@ -1,4 +1,8 @@
 
+
+
+
+
     <div id="header">
         <a onclick = "prebaci('naslovnica.html')"><img src="slike/logo.png" alt="logo_pic"></a>
     		<ul class="nav_left">
@@ -22,7 +26,7 @@
     <div id="wrapper">
         <div id="content">
         	<h3 id="form_heading">Registrujte se!</h3>
-            <form id = "sign_up_form">
+            <form id = "sign_up_form" action="reg_up.php" method="POST">
                 <div id = "sup_d1">
                     <label for="ime">Ime*:</label>
                     <input id="ime" type="text" name="ime_in">
@@ -69,7 +73,7 @@
                 </div>
                 <div id = "sup_d6">
                     <label></label>
-                    <input id ="sup_sbmt" type="button" onclick = "provjeriFormu()" value="Registruj se">
+                    <input id ="sup_sbmt" type="submit" value="Registruj se">
                 </div>
             </form>
             <br>

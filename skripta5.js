@@ -9,7 +9,6 @@ window.onload = function() {
 	meni.style.display = "none";
 	meni.style.position = "absolute";
 }
-
 function postaviMeni() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";
@@ -237,7 +236,7 @@ function provjeriFormu () {
 			//document.getElementById("sign_up_form").submit();
 			//forma se ne sumbita jer je ovaj dio zadatak na sljedecoj spirali i bit ce implementiran u php-u
 			alert("Podaci su uspjesno poslani!");
-			forma.reset();
+			//forma.reset();
 		}
 	}
 }
@@ -278,7 +277,7 @@ function webService(grad, pb, validno) {
 					//document.getElementById("sign_up_form").submit();
 					//forma se ne sumbita jer je ovaj dio zadatak na sljedecoj spirali i bit ce implementiran u php-u
 					alert("Podaci su uspjesno poslani!");
-					document.getElementById('sign_up_form').reset();
+					//document.getElementById('sign_up_form').reset();
 				}
 			}
 			else
@@ -422,4 +421,8 @@ function populisiTabelu(lista) {
 function ubaciID(id_pr) {
 	var forma = document.getElementById('manage_products_form');
 	forma.id_pr_in.value = id_pr;
+}
+
+function resetujFormuRegistracija() {
+	document.getElementById("sign_up_form").reset();
 }

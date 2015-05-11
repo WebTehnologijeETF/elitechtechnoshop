@@ -325,6 +325,10 @@ td {
   margin-left: 3px;
 }
 
+#sup_rst {
+  margin-left: 3px;
+}
+
 #meni_katalog {
   margin-left: 100px;
   margin-top: 10px;
@@ -381,4 +385,13 @@ td {
   padding-top: 3px;
   /*border: 1px solid #903939;*/
   width: 22%;
+}
+
+
+#uneseni_podaci {
+  margin-left: 7%;
+}
+
+#siguran {
+  margin-left: 5%;
 }
