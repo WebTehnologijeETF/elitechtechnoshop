@@ -245,6 +245,7 @@ function prebaci(stranica) {
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+
 			document.getElementById("tijelo").innerHTML = xmlhttp.responseText;
 			postaviMeni();
 			if(stranica === "katalog.html" || stranica === "registracija.html")
@@ -257,6 +258,8 @@ function prebaci(stranica) {
 	xmlhttp.open("GET",stranica, true);
 	xmlhttp.send();
 }
+
+
 
 function webService(grad, pb, validno) {
 	xmlhttp=new XMLHttpRequest();

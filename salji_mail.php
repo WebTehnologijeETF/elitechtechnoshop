@@ -7,12 +7,11 @@
 </head>
 
 <body id = "tijelo">
-
 <div id="page">
     <div id="header">
         <a onclick = "prebaci('naslovnica.html')"><img src="slike/logo.png" alt="logo_pic"></a>
-    		<ul class="nav_left">
-                <li id="act"><a onclick = "prebaci('naslovnica.html')">Naslovnica</a></li>
+            <ul class="nav_left">
+                <li><a onclick = "prebaci('naslovnica.html')">Naslovnica</a></li>
                 <li id = "zapr" class = "opens_menu"  onclick="prikaziMeniKatalog();" onmouseleave="sakrijMeniKatalog();">Katalog
                     <ul id="meni_katalog">
                         <li class = "menu_item_katalog"><a onclick = "prebaci('katalog.html')">Laptopi</a></li>
@@ -25,7 +24,7 @@
                 <li><a onclick = "prebaci('kontakt.html')">Kontakt</a></li>
             </ul>
             <ul class="nav_right">
-                <li><a onclick = "prebaci('registracija.html')">Registracija</a></li>
+                <li id="act"><a onclick = "prebaci('registracija.html')">Registracija</a></li>
                 <li><a onclick = "prebaci('prijava.html')">Prijava</a></li> 
             </ul>
     </div>
@@ -33,10 +32,25 @@
         <div id="content">
         	<h3>Zahvaljujemo se što ste nas kontaktirali</h3>
             <?php
-                if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                    print("<p>dfdsdfds</p>");
+                        $podaci = explode(",", $_REQUEST["podaci"]);
 
-                }
+
+                        $message = "Ime: " . $podaci[0] . "\r\n" . "Prezime: " . $podaci[1] . "\r\n" . "E-mail: " . $podaci[2] . "\r\n" . "Sifra: " . $podaci[3] . "\r\n" . "Grad: " . $podaci[5] . "\r\n" . "Postanski broj: " . $podaci[6] . "\r\n" . "Telefon: " . $podaci[7] . "\r\n";
+                        $from = "zlatancilic693@gmail.com";
+                        $subject = "Kontakt forma message";
+                        $headers  = "From: ".$from . "\r\n";
+                        $headers .= "MIME-Version: 1.0" . "\r\n";
+                        $headers .= "Cc: zlatancilic@hotmail.com";
+                        $headers .= "Content-Type: text/html; charset=\"UTF-8\"" . "\r\n";
+                        $headers .= "Content-Transfer-Encoding: 7bit";
+                        $headers .= "--" . "\r\n";
+                        $headers .= "Content-Type: text/html; charset=\"UTF-8\"" . "\r\n";
+                        $headers .= "Content-Transfer-Encoding: 8bit" . "\r\n";
+                        $headers .= $message . "\r\n";
+
+                        $mailSent = mail("zcilic1@etf.unsa.ba", $subject, $message, $headers);
+                        echo ($mailSent == 1) ? "Zahvaljujemo vam sto ste nas kontaktirali." : "Došlo je do greške pri slanju maila.";
+                        print_r(error_get_last());
             ?>
         </div>
     </div>

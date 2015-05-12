@@ -19,7 +19,7 @@
                         <li class = "menu_item_katalog">Televizori</li>
                         <li class = "menu_item_katalog">Mobiteli</li>
                         <li class = "menu_item_katalog">Tableti</li>
-                    </ul>
+                    </ul>   
                 </li>
                 <li><a onclick = "prebaci('partneri.html')">Partneri</a></li>
                 <li><a onclick = "prebaci('kontakt.html')">Kontakt</a></li>

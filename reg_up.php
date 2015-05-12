@@ -18,12 +18,23 @@
         $validno = true;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (trim($_POST["ime_in"]) == '') {
+
+            $ime = htmlentities($_POST["ime_in"], ENT_QUOTES);
+            $prezime = htmlentities($_POST['prezime_in'], ENT_QUOTES);
+            $email = htmlentities($_POST['mail_in'], ENT_QUOTES);
+            $sifra = htmlentities($_POST['pass_in'], ENT_QUOTES);
+            $potvrdaSifra = htmlentities($_POST['pass_conf_in'], ENT_QUOTES);
+            $telefon = htmlentities($_POST['tel_in'], ENT_QUOTES);
+            $grad = htmlentities($_POST['grad_in'], ENT_QUOTES);
+            $p_broj = htmlentities($_POST['post_broj_in'], ENT_QUOTES);
+
+
+            if (trim($ime) == '') {
                 $greskaIme = "Ne smije biti prazno!";
                 $ikonicaIme = "slike/greska.png";
                 $validno = false;
             }
-            elseif(!ctype_alpha(trim($_POST["ime_in"]))) {
+            elseif(!ctype_alpha(trim($ime))) {
                 $greskaIme = "Mogu biti samo slova!";
                 $ikonicaIme = "slike/greska.png";
                 $validno = false;
@@ -33,12 +44,12 @@
             }
 
 
-            if (trim($_POST["prezime_in"]) == '') {
+            if (trim($prezime) == '') {
                 $greskaPrezime = "Ne smije biti prazno!";
                 $ikonicaPrezime = "slike/greska.png";
                 $validno = false;
             }
-            elseif(!ctype_alpha(trim($_POST["prezime_in"]))) {
+            elseif(!ctype_alpha(trim($prezime))) {
                 $greskaPrezime = "Mogu biti samo slova!";
                 $ikonicaPrezime = "slike/greska.png";
                 $validno = false;
@@ -48,12 +59,12 @@
             }
 
 
-            if (trim($_POST["mail_in"]) == '') {
+            if (trim($email) == '') {
                 $greskaMail = "Ne smije biti prazno!";
                 $ikonicaMail = "slike/greska.png";
                 $validno = false;
             }
-            elseif(!filter_var($_POST["mail_in"], FILTER_VALIDATE_EMAIL)) {
+            elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $greskaMail = "Mora biti validan mail!";
                 $ikonicaMail = "slike/greska.png";
                 $validno = false;
@@ -62,7 +73,7 @@
                 $ikonicaMail = "slike/prazno.png";
             }
 
-            if(strlen($_POST["pass_in"]) < 6) {
+            if(strlen($sifra) < 6) {
                 $greskaSifra = "Minimalno 6 karaktera!";
                 $ikonicaSifra = "slike/greska.png";
                 $validno = false;
@@ -71,7 +82,7 @@
                 $ikonicaSifra = "slike/prazno.png";
             }
 
-            if($_POST["pass_in"] != $_POST["pass_conf_in"]) {
+            if($sifra != $potvrdaSifra) {
                 $greskaPotvrda = "Sifre moraju biti iste!";
                 $ikonicaPotvrda = "slike/greska.png";
                 $validno = false;
@@ -80,14 +91,7 @@
                 $ikonicaPotvrda = "slike/prazno.png";
             }
 
-            $ime = $_POST["ime_in"];
-            $prezime = $_POST["prezime_in"];
-            $email = $_POST["mail_in"];
-            $sifra = $_POST["pass_in"];
-            $potvrdaSifra = $_POST["pass_conf_in"];
-            $telefon = $_POST["tel_in"];
-            $grad = $_POST["grad_in"];
-            $p_broj = $_POST["post_broj_in"];
+            
         }
 
 ?>
@@ -131,8 +135,9 @@
                         <li><p>Telefon: ".$telefon."</p></li>
                         </ul>");
                     print("<h4>Da li ste sigurni da želite poslati ove podatke?</h4>");
-                    $podaci = "ovoprimjer";
-                    print("<form id='siguran_forma' action='salji_mail.php?podaci=adadads' method='GET'><input id = 'siguran' type='submit' value = 'Siguran sam'></form>");
+                    $podaci = $ime.",".$prezime.",".$email.",".$sifra.",".$potvrdaSifra.",".$grad.",".$p_broj.",".$telefon;
+                    
+                    print("<a href='salji_mail.php?podaci=".$podaci."'><input id = 'siguran' type='submit' value = 'Siguran sam'></a>");
                     print("<h4>Ako ste pogrešno popunili formu, možete ispod prepraviti unesene podatke.</h4>");
                 }
             ?>
