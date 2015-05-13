@@ -8,7 +8,20 @@ window.onload = function() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";
 	meni.style.position = "absolute";
+	prikaziNovosti();
 }
+
+function prikaziNovosti() {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","novosti.php", true);
+	xmlhttp.send();
+}
+
 function postaviMeni() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";

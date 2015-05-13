@@ -7,7 +7,7 @@
 </head>
 
 <body id = "tijelo">
-
+    
 <div id="page">
     <div id="header">
         <a onclick = "prebaci('naslovnica.html')"><img src="slike/logo.png" alt="logo_pic"></a>
@@ -31,24 +31,7 @@
     </div>
     <div id="wrapper">
         <div id="content">
-        	<div class = "item">
-                <img src="slike/macbook.png" alt="mb_pic">
-                <h3>Apple objelodanio novi MacBook</h3>
-                <p class = "datum">Datum objave: 22.03.2015.</p>
-                <p class = "sazetak">Apple je na svom specijalnom događaju, posvećenom Apple Watch pametnom satu, iskoristio priliku da nam predstavi najnoviji MacBook. Novi kompanijin laptop će se upravo ovako i zvati - MacBook, bez dodatnih kvalifikacija. Laptop je težak svega 907 grama i deluje kao da se radi o zameni za najlakše MacBook Air modele. Uređaj je za 24 odsto lakši od 11-inčnog MacBook Aira, a tanak je svega 13,1 milimetar...<a href="#">Detaljnije</a></p>
-            </div>
-            <div class = "item">
-                <img src="slike/macbook.png" alt="mb_pic">
-                <h3>Apple objelodanio novi MacBook</h3>
-                <p class = "datum">Datum objave: 22.03.2015.</p>
-                <p class = "sazetak">Apple je na svom specijalnom događaju, posvećenom Apple Watch pametnom satu, iskoristio priliku da nam predstavi najnoviji MacBook. Novi kompanijin laptop će se upravo ovako i zvati - MacBook, bez dodatnih kvalifikacija. Laptop je težak svega 907 grama i deluje kao da se radi o zameni za najlakše MacBook Air modele. Uređaj je za 24 odsto lakši od 11-inčnog MacBook Aira, a tanak je svega 13,1 milimetar...<a href="#">Detaljnije</a></p>
-            </div>
-            <div class = "item">
-                <img src="slike/macbook.png" alt="mb_pic">
-                <h3>Apple objelodanio novi MacBook</h3>
-                <p class = "datum">Datum objave: 22.03.2015.</p>
-                <p class = "sazetak">Apple je na svom specijalnom događaju, posvećenom Apple Watch pametnom satu, iskoristio priliku da nam predstavi najnoviji MacBook. Novi kompanijin laptop će se upravo ovako i zvati - MacBook, bez dodatnih kvalifikacija. Laptop je težak svega 907 grama i deluje kao da se radi o zameni za najlakše MacBook Air modele. Uređaj je za 24 odsto lakši od 11-inčnog MacBook Aira, a tanak je svega 13,1 milimetar...<a href="#">Detaljnije</a></p>
-            </div>
+
         </div>
     </div>
 </div>

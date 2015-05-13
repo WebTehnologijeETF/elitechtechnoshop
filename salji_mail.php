@@ -30,27 +30,37 @@
     </div>
     <div id="wrapper">
         <div id="content">
-        	<h3>Zahvaljujemo se što ste nas kontaktirali</h3>
             <?php
+                        require("sendgrid-php/sendgrid-php.php");
+                        $service_plan_id = "sendgrid_ab701";
+                        $account_info = json_decode(getenv($service_plan_id), true);
+
+                        $sendgrid = new SendGrid($account_info['username'], $account_info['password']);
+                        $email    = new SendGrid\Email();
+
                         $podaci = explode(",", $_REQUEST["podaci"]);
-
-
                         $message = "Ime: " . $podaci[0] . "\r\n" . "Prezime: " . $podaci[1] . "\r\n" . "E-mail: " . $podaci[2] . "\r\n" . "Sifra: " . $podaci[3] . "\r\n" . "Grad: " . $podaci[5] . "\r\n" . "Postanski broj: " . $podaci[6] . "\r\n" . "Telefon: " . $podaci[7] . "\r\n";
-                        $from = "zlatancilic693@gmail.com";
-                        $subject = "Kontakt forma message";
-                        $headers  = "From: ".$from . "\r\n";
-                        $headers .= "MIME-Version: 1.0" . "\r\n";
-                        $headers .= "Cc: zlatancilic@hotmail.com";
-                        $headers .= "Content-Type: text/html; charset=\"UTF-8\"" . "\r\n";
-                        $headers .= "Content-Transfer-Encoding: 7bit";
-                        $headers .= "--" . "\r\n";
-                        $headers .= "Content-Type: text/html; charset=\"UTF-8\"" . "\r\n";
-                        $headers .= "Content-Transfer-Encoding: 8bit" . "\r\n";
-                        $headers .= $message . "\r\n";
+                        $from = "registracija@elitech.com";
+                        $subject = "Registracija forme Elitech";
+                        $send_to = "irfanpra@gmail.com";
+                        $send_cc = "zlatancilic@hotmail.com";
 
-                        $mailSent = mail("zcilic1@etf.unsa.ba", $subject, $message, $headers);
-                        echo ($mailSent == 1) ? "Zahvaljujemo vam sto ste nas kontaktirali." : "Došlo je do greške pri slanju maila.";
-                        print_r(error_get_last());
+                        $email->addTo($send_to)
+                              ->addCc($send_cc)
+                              ->setFrom($from)
+                              ->setSubject($subject)
+                              ->setHtml($message);
+
+                        
+                        try {
+                            $sendgrid->send($email);
+                            print "<h3>Zahvaljujemo se što ste nas kontaktirali</h3>";
+                        } catch(\SendGrid\Exception $error) {
+                            echo $error->getCode();
+                            foreach($error->getErrors() as $er) {
+                                echo $er;
+                            }
+                        }
             ?>
         </div>
     </div>
