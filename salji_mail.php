@@ -42,8 +42,8 @@
                         $message = "Ime: " . $podaci[0] . "\r\n" . "Prezime: " . $podaci[1] . "\r\n" . "E-mail: " . $podaci[2] . "\r\n" . "Sifra: " . $podaci[3] . "\r\n" . "Grad: " . $podaci[5] . "\r\n" . "Postanski broj: " . $podaci[6] . "\r\n" . "Telefon: " . $podaci[7] . "\r\n";
                         $from = "registracija@elitech.com";
                         $subject = "Registracija forme Elitech";
-                        $send_to = "irfanpra@gmail.com";
-                        $send_cc = "zlatancilic@hotmail.com";
+                        $send_to = "zcilic1@etf.unsa.ba";
+                        $send_cc = "irfanpra@gmail.com";
 
                         $email->addTo($send_to)
                               ->addCc($send_cc)

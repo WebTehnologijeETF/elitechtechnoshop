@@ -8,7 +8,11 @@ window.onload = function() {
 	var meni = document.getElementById('meni_katalog');
 	meni.style.display = "none";
 	meni.style.position = "absolute";
-	prikaziNovosti();
+	var c = document.getElementById("act").childNodes;
+	if(c[0].innerHTML === "Naslovnica") {
+		prikaziNovosti();
+	}
+	
 }
 
 function prikaziNovosti() {
