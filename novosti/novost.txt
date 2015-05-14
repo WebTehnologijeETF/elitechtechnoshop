@@ -1,7 +1,5 @@
 28.04.2015. 10:31:44
-Vedran Ljubović
-OVO JE NEKI PRIMJER NOVOSTI
-
-Sada ću napisati neki osnovni tekst.
-Ovaj osnovni tekst se nalazi u više redova.
-Lorem ipsum dolor sit amet i tako dalje mrsko mi je da kopiram.
+ZlatanČilić
+Apple objavio novi Macbook
+slike/macbook.png
+Kao što ste možda već i čuli, Apple je danas najavio još jedan super tanak laptop koji će se pridružiti MacBook Air i MacBook Pro modelima. Ovdje ćemo vam brzinski objasniti što možete očekivati od komponenti te podjeliti naša mišljenja o novom MacBooku.

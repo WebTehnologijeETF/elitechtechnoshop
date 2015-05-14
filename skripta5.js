@@ -259,12 +259,14 @@ function prebaci(stranica) {
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
 
-			document.getElementById("tijelo").innerHTML = xmlhttp.responseText;
+			document.getElementById("page").innerHTML = xmlhttp.responseText;
 			postaviMeni();
 			if(stranica === "katalog.html" || stranica === "registracija.html")
 				sakrijGreske();
 			if(stranica === "katalog.html")
 				ucitajProizvode();
+			if(stranica === "naslovnica.html")
+				prikaziNovosti();
 
 		}
 	}
@@ -441,4 +443,17 @@ function ubaciID(id_pr) {
 
 function resetujFormuRegistracija() {
 	document.getElementById("sign_up_form").reset();
+}
+
+function dajNovost(novostJSON) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			postaviMeni();
+		}
+	}
+	xmlhttp.open("GET","detaljno.php?datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
+	xmlhttp.send();
 }
