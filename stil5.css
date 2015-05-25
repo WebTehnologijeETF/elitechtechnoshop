@@ -395,3 +395,62 @@ td {
 #siguran {
   margin-left: 5%;
 }
+
+
+/*sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
+.comment {
+  padding: 10px;
+  display: inline-block;
+  margin-left: 41.5%;
+  border: 1px solid #BCBCBC;
+  width: 55%;
+
+}
+
+.comment p {
+  float: left;
+  text-align: left;
+  width: 97%;
+}
+
+#kom_naslov {
+  margin-left: 42.5%;
+}
+
+.comment_wrapper {
+    /*border: 1px solid #903939;*/
+}
+
+/*----------------------------------------*/
+
+#unos_komentara_form {
+  width: 55%;
+  margin-left: 41.5%;
+  /*border: 1px solid #BCBCBC;*/
+}
+
+#unos_komentara_form label { 
+  display: inline-block;
+  float: left;
+  clear: left;
+  text-align: right;
+  width: 20%;
+  padding-top: 3px;
+
+}
+#unos_komentara_form input { 
+  display: inline-block;
+  float: left;
+  min-width: 78%;
+}
+
+#unos_komentara_form textarea {
+  resize: none;
+  display: inline-block;
+  float: left;
+  width: 78%;
+}
+
+#com_sbmt {
+  margin-left: 21%;
+}

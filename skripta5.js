@@ -458,6 +458,37 @@ function dajNovost(novostJSON) {
 			postaviMeni();
 		}
 	}
-	xmlhttp.open("GET","detaljno.php?datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
+	xmlhttp.send();
+}
+
+function dajKomentare(novostJSON) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			postaviMeni();
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","detaljno.php?akcija=pregled&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
+	xmlhttp.send();
+}
+
+function dodajKomentar(forma, novostJSON) {
+	var tekst_komentara = forma.tekst_komentara.value;
+	var ime_autora = forma.ime_autora_komentara.value;
+	var email_autora = forma.email_autora_komentara.value;
+	
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			postaviMeni();
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","detaljno.php?akcija=dodavanje&tekstKomentara=" + tekst_komentara + "&imeAutora=" + ime_autora + "&emailAutora=" + email_autora + "&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
 	xmlhttp.send();
 }

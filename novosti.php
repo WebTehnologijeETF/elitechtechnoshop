@@ -23,12 +23,20 @@
             $linkDetaljno = "Detaljnije";
         }
 
+        $novost["id"] = $id;
+        $novost["datum"] = $datum;
+        $novost["slika"] = $slika;
+        $novost["naslov"] = $naslov;
+        $novost["autor"] = $autor;
+        $novost["tekst"] = $tekst;
+        $novost["detaljno"] = $detaljno;
+
         print("<div class = 'item'>
             <img src ='".htmlentities($slika, ENT_QUOTES)."' alt = 'pr_slika'>
             <h3>".htmlentities($naslov, ENT_QUOTES)."</h3>
             <p class = 'datum'> Datum: ".htmlentities($datum, ENT_QUOTES)."</p>
             <p class = 'autor'> Autor: ".htmlentities($autor, ENT_QUOTES)."</p>
-            <p class = 'sazetak'>".htmlentities($tekst, ENT_QUOTES)."<a onclick='dajNovost(".$id.")'>".$linkDetaljno."</a></p>
+            <p class = 'sazetak'>".htmlentities($tekst, ENT_QUOTES)."<a onclick='dajNovost(".json_encode($novost).")'>".$linkDetaljno."</a></p>
             </div>"); 
      }
 
