@@ -1,16 +1,6 @@
 <?php
 	if(isset($_GET['akcija'])) {
 		if($_GET['akcija'] == "upad") {
-			/*$id = htmlentities($_GET["id"], ENT_QUOTES);
-			$con = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
-    		$con->exec("set names utf8");
-    		$lista_vijesti = $con->query("select naslov, UNIX_TIMESTAMP(vrijeme) vrijeme2, autor, tekst, urlSlike, detaljno from novost order by vrijeme desc");
-    		if (!$lista_vijesti) {
-		          $error = $con->errorInfo();
-		          print $error[2];
-		          exit();
-		     }*/
-
 
 			    $id = htmlentities($_GET["id"], ENT_QUOTES);
 				$slika = htmlentities($_GET["slika"], ENT_QUOTES);
@@ -27,7 +17,7 @@
 		        	print "SQL greška: " . $greska[2];
 		        	exit();
 		        }
-	          	//$veza->close();
+	          	
 	         	$novost["id"] = $id;
 		        $novost["datum"] = $datum;
 		        $novost["slika"] = $slika;
@@ -81,7 +71,7 @@
 		        	print "SQL greška: " . $greska[2];
 		        	exit();
 		        }
-		        //$veza->close();
+		        
 		        print("<h3 id='kom_naslov'>Komentari</h3>");
 		        print("<div class = 'comment_wrapper'>");
 
@@ -92,18 +82,22 @@
 		        	$datum_kom = date("d.m.Y. h:i:s", $komentar['vrijeme2']);
 		        	$email_kom = $komentar['email'];
 
-
-
-
-		        	print("<div class = 'comment'>
+					if($email_kom == "" || $email_kom == null) {
+		        		print("<div class = 'comment'>
 			            <p class = 'datum'> Datum: ".$datum_kom."</p>
 			            <p class = 'autor'> Autor: ".$autor_kom."</p>
+			            <p class 'sazetak'>".$tekst_kom."</p>
+			            </div>");
+		        	}
+		        	else {
+		        		print("<div class = 'comment'>
+			            <p class = 'datum'> Datum: ".$datum_kom."</p>
+			            <p class = 'autor'>Autor: <a href='mailto:".$email_kom."'>".$autor_kom."</a></p>
 			            <p class = 'email_kom'> E-mail autora: ".$email_kom."</p>
 			            <p class 'sazetak'>".$tekst_kom."</p>
 			            </div>");
+		        	}
 		        }
-
-				
 
 		        print("</div>");
 
@@ -118,10 +112,6 @@
 		        	<input type='button' id='com_sbmt' name='posalji_komentar' value='Posalji' onclick='dodajKomentar(this.form, ".json_encode($novost).")'>
 		        	</form>
 		        	</div>");
-
-		        
-
-
 		       
 		}
 		if($_GET['akcija'] == "dodavanje") {
@@ -133,7 +123,6 @@
 				$autor = htmlentities($_GET["autor"], ENT_QUOTES);
 				$tekst = htmlentities($_GET["tekst"], ENT_QUOTES);
 				$detaljno = htmlentities($_GET["detaljno"], ENT_QUOTES);
-
 
 				$novost["id"] = $id;
 		        $novost["datum"] = $datum;
@@ -152,18 +141,27 @@
 			            <p class 'sazetak'>".$detaljno."</p>
 			            </div>");
 
-				$tk = $_GET['tekstKomentara'];
-				$ak = $_GET['imeAutora'];
-				$ea = $_GET['emailAutora'];
+				$tk = htmlentities($_GET['tekstKomentara'], ENT_QUOTES);
+				$ak = htmlentities($_GET['imeAutora'], ENT_QUOTES);
+				$ea = htmlentities($_GET['emailAutora'], ENT_QUOTES);
+
 				$conn = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
-				$sql = "insert into komentar (vijest, autor, tekst, email) values (".$id.", '".$ak."', '".$tk."', '".$ea."')";
-				if (!$conn->query($sql)) {
+				$sql = $conn->prepare("insert into komentar (vijest, autor, tekst, email) values (?, ?, ?, ?)");
+				$sql ->bindParam(1, $id_p);
+				$sql ->bindParam(2, $ak_p);
+				$sql ->bindParam(3, $tk_p);
+				$sql ->bindParam(4, $ea_p);
+
+				$id_p = $id;
+				$ak_p = $ak;
+				$tk_p = $tk;
+				$ea_p = $ea;
+
+				if (!$sql->execute()) {
 				    $greska = $conn->errorInfo();
 				   	print "SQL greška: " . $greska[2];
 				   	exit();
 				}
-
-		        //$veza1->close();
 
 				$veza = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
 	          	$komentari = $veza->query("select tekst, autor, UNIX_TIMESTAMP(vrijeme) vrijeme2, email from komentar where vijest=".$id." order by vrijeme desc");
@@ -172,7 +170,7 @@
 		        	print "SQL greška: " . $greska[2];
 		        	exit();
 		        }
-		        //$veza->close();
+
 		        print("<h3 id='kom_naslov'>Komentari</h3>");
 		        print("<div class = 'comment_wrapper'>");
 
@@ -183,18 +181,23 @@
 		        	$datum_kom = date("d.m.Y. h:i:s", $komentar['vrijeme2']);
 		        	$email_kom = $komentar['email'];
 
-
-
-
-		        	print("<div class = 'comment'>
+		        	if($email_kom == "" || $email_kom == null) {
+		        		print("<div class = 'comment'>
 			            <p class = 'datum'> Datum: ".$datum_kom."</p>
 			            <p class = 'autor'> Autor: ".$autor_kom."</p>
+			            <p class 'sazetak'>".$tekst_kom."</p>
+			            </div>");
+		        	}
+		        	else {
+		        		print("<div class = 'comment'>
+			            <p class = 'datum'> Datum: ".$datum_kom."</p>
+			            <p class = 'autor'>Autor: <a href='mailto:".$email_kom."'>".$autor_kom."</a></p>
 			            <p class = 'email_kom'> E-mail autora: ".$email_kom."</p>
 			            <p class 'sazetak'>".$tekst_kom."</p>
 			            </div>");
+		        	}
+		        	
 		        }
-
-				
 
 		        print("</div>");
 
@@ -208,16 +211,8 @@
 		        	<input type='text' id='email_kom' name='email_autora_komentara'>
 		        	<input type='button' id='com_sbmt' name='posalji_komentar' value='Posalji' onclick='dodajKomentar(this.form, ".json_encode($novost).")'>
 		        	</form>
-		        	</div>");
-
-		        
-
-
-		       
+		        	</div>");	       
 		}
-
 	}
-	/*
-		*/
 ?>
 

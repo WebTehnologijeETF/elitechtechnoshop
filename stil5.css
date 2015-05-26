@@ -421,6 +421,10 @@ td {
     /*border: 1px solid #903939;*/
 }
 
+.comment a {
+    color: black;
+}
+
 /*----------------------------------------*/
 
 #unos_komentara_form {
