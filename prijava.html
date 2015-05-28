@@ -21,6 +21,24 @@
     </div>
     <div id="wrapper">
         <div id="content">
-        	
+            <form id = "sign_in_form">
+                <div id = "sup_d1">
+                    <label for="mail">E-mail:</label>
+                    <input id="mail" type="text" name="mail_in">
+                    <img class = "greska_icon" id ="greska_mail" src = "slike/greska.png" alt = "greska_pic">
+                    <p class = "greska_tekst" id ="greska_tekst_mail">Mail je pogrešan!</p>
+                </div>
+                <div id = "sup_d2">
+                    <label for="pass">Password:</label>
+                    <input id="pass" type="password" name="pass_in">
+                    <img class = "greska_icon" id ="greska_pass" src = "slike/greska.png" alt = "greska_pic">
+                    <p class = "greska_tekst" id ="greska_tekst_pass">Šifra je pogrešna!</p>
+                </div>
+
+                <div id = "sup_d6">
+                    <label></label>
+                    <input id ="sup_sbmt" type="button" onclick="logujKorisnika(this.form);" value="Prijavi se">
+                </div>
+            </form>
         </div>
     </div>

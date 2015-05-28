@@ -425,6 +425,11 @@ td {
     color: black;
 }
 
+.comment img {
+  display: block;
+  float: right;
+}
+
 /*----------------------------------------*/
 
 #unos_komentara_form {
@@ -457,4 +462,67 @@ td {
 
 #com_sbmt {
   margin-left: 21%;
+}
+/*prijava*/
+#sign_in_form {
+  margin-top: 30px;
+}
+
+#sign_in_form p {
+  float: right;
+  font-size: 11px;
+  padding-top: 3px;
+  /*border: 1px solid #903939;*/
+  width: 22%;
+}
+
+#sign_in_form div {
+  max-width: 85%;
+  /*border: 1px solid #903939;*/
+}
+
+#sign_in_form label {
+  display: inline-block;
+  float: left;
+  clear: left;
+  text-align: right;
+  min-width: 23%;
+  padding-top: 3px;
+
+} 
+
+#sign_in_form input {
+  width: 49%;
+}
+/*admin novost*/
+#unos_novosti_form {
+  height: 55%;
+  margin-top: 5px;
+}
+
+#unos_novosti_form label { 
+  display: inline-block;
+  float: left;
+  clear: left;
+  text-align: right;
+  width: 20%;
+  padding-top: 0px;
+
+}
+#unos_novosti_form input { 
+  display: inline-block;
+  float: left;
+  min-width: 41%;
+}
+
+
+#unos_novosti_form textarea {
+  resize: none;
+  display: inline-block;
+  float: left;
+  width: 71%;
+}
+
+#novost_sbmt {
+  margin-left: 20%;
 }

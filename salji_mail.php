@@ -31,7 +31,7 @@
     <div id="wrapper">
         <div id="content">
             <?php
-                        require("sendgrid-php/sendgrid-php.php");
+                        /*require("sendgrid-php/sendgrid-php.php");
                         $service_plan_id = "sendgrid_ab701";
                         $account_info = json_decode(getenv($service_plan_id), true);
 
@@ -43,7 +43,7 @@
                         $from = "registracija@elitech.com";
                         $subject = "Registracija forme Elitech";
                         $send_to = "zcilic1@etf.unsa.ba";
-                        $send_cc = "irfanpra@gmail.com";
+                        $send_cc = "zlatancilic693@gmail.com";
 
                         $email->addTo($send_to)
                               ->addCc($send_cc)
@@ -60,7 +60,38 @@
                             foreach($error->getErrors() as $er) {
                                 echo $er;
                             }
+                        }*/
+
+                        $conn = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
+                        $sql = $conn->prepare("insert into korisnik (ime, prezime, email, password, grad, postanskiBroj, telefon, tip) values (?, ?, ?, md5(?), ?, ?, ?, ?)");
+                        $sql ->bindParam(1, $ime);
+                        $sql ->bindParam(2, $prezime);
+                        $sql ->bindParam(3, $email);
+                        $sql ->bindParam(4, $password);
+                        $sql ->bindParam(5, $grad);
+                        $sql ->bindParam(6, $postanskiBroj);
+                        $sql ->bindParam(7, $telefon);
+                        $sql ->bindParam(8, $tip);
+
+
+                        $podaci = explode(",", $_REQUEST["podaci"]);
+                        $ime = $podaci[0];
+                        $prezime = $podaci[1];
+                        $email = $podaci[2];
+                        $password = $podaci[3];
+                        $grad = $podaci[5];
+                        $postanskiBroj = $podaci[6];
+                        $telefon = $podaci[7];
+                        $tip = "korisnik";
+
+                        if (!$sql->execute()) {
+                            $greska = $conn->errorInfo();
+                            print "SQL greška: ";
+                            print_r($greska);
+                            exit();
                         }
+
+
             ?>
         </div>
     </div>

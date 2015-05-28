@@ -58,6 +58,17 @@
                 $ikonicaPrezime = "slike/prazno.png";
             }
 
+            $veza = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
+            $sql = $veza->prepare("select ime from korisnik where email = ?");
+            $sql ->bindParam(1, $id_p);
+
+            $id_p = trim($email);
+
+            if (!$sql->execute()) {
+                $greska = $veza->errorInfo();
+                print "SQL greška: " . $greska[2];
+                exit();
+            }
 
             if (trim($email) == '') {
                 $greskaMail = "Ne smije biti prazno!";
@@ -68,7 +79,12 @@
                 $greskaMail = "Mora biti validan mail!";
                 $ikonicaMail = "slike/greska.png";
                 $validno = false;
-            } 
+            }
+            elseif($sql->rowCount() != 0) {
+                $greskaMail = "Taj mail je već u upotrebi!";
+                $ikonicaMail = "slike/greska.png";
+                $validno = false;
+            }
             else {
                 $ikonicaMail = "slike/prazno.png";
             }

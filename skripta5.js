@@ -265,7 +265,7 @@ function prebaci(stranica) {
 
 			document.getElementById("page").innerHTML = xmlhttp.responseText;
 			postaviMeni();
-			if(stranica === "katalog.html" || stranica === "registracija.html")
+			if(stranica === "katalog.html" || stranica === "registracija.html" || stranica === "prijava.html")
 				sakrijGreske();
 			if(stranica === "katalog.html")
 				ucitajProizvode();
@@ -480,7 +480,24 @@ function dodajKomentar(forma, novostJSON) {
 	var tekst_komentara = forma.tekst_komentara.value;
 	var ime_autora = forma.ime_autora_komentara.value;
 	var email_autora = forma.email_autora_komentara.value;
+
+	var validno = true;
+
+	if(email_autora.trim() != "") {
+		var mail_regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		if(!mail_regex.test(email_autora))
+			validno = false;
+	}
+
+	if(tekst_komentara.trim() === "" || ime_autora.trim() === "")
+		validno = false;
 	
+	if(!validno) {
+		alert("Unos nije validan!");
+	}
+
+	else {
+
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
@@ -490,5 +507,70 @@ function dodajKomentar(forma, novostJSON) {
 	}
 	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
 	xmlhttp.open("GET","detaljno.php?akcija=dodavanje&tekstKomentara=" + tekst_komentara + "&imeAutora=" + ime_autora + "&emailAutora=" + email_autora + "&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
+	xmlhttp.send();
+	}
+}
+
+function logujKorisnika(forma) {
+	var mail = forma.mail_in.value;
+	var pass = forma.pass_in.value;
+	var mypostrequest=new XMLHttpRequest();
+		mypostrequest.onreadystatechange=function(){
+	 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
+	   			document.getElementById("content").innerHTML = mypostrequest.responseText;
+				postaviMeni();
+	  		}
+	 	}
+		
+		mypostrequest.open("POST", "logiranje.php", true);
+		mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		mypostrequest.send("mail=" + mail + "&pass=" + pass);
+}
+
+function dodajNovost(forma) {
+	var naslov = forma.naslov_novosti.value;
+	var autor = forma.autor_novosti.value;
+	var url = forma.slika_novosti.value;
+	var tekst = forma.tekst_novosti.value;
+	var detaljno = forma.detaljno_novosti.value;
+
+	var validno = true;
+
+	if(naslov.trim() == "" || autor.trim() == "" || tekst.trim() == "") {
+		validno = false;
+	}
+
+	if(url == "")
+		url = "slike/prazno.png";
+
+	if(!validno) {
+		alert("Unos nije validan!");
+	}
+
+	else {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			alert("Uspjesno ste unijeli novost!");
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","novosti.php?akcija=dodavanje&naslov="+naslov+"&autor="+autor+"&url="+url+"&tekst="+tekst+"&detaljno="+detaljno, true);
+	xmlhttp.send();
+	}
+}
+
+function brisiKomentar(id, novostJSON) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			postaviMeni();
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","detaljno.php?akcija=brisanje&id_kom="+ id +"&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
 	xmlhttp.send();
 }
