@@ -1,3 +1,5 @@
+var korisnikPrijavljen = false;
+
 window.onload = function() {
 	var slike = document.getElementsByClassName('greska_icon');
 	var tekstovi = document.getElementsByClassName('greska_tekst');
@@ -265,12 +267,15 @@ function prebaci(stranica) {
 
 			document.getElementById("page").innerHTML = xmlhttp.responseText;
 			postaviMeni();
+			promjeniTekstPrijava();
 			if(stranica === "katalog.html" || stranica === "registracija.html" || stranica === "prijava.html")
 				sakrijGreske();
 			if(stranica === "katalog.html")
 				ucitajProizvode();
 			if(stranica === "naslovnica.html")
 				prikaziNovosti();
+
+
 
 		}
 	}
@@ -519,6 +524,8 @@ function logujKorisnika(forma) {
 	 		if(mypostrequest.status === 200 & mypostrequest.readyState === 4) {
 	   			document.getElementById("content").innerHTML = mypostrequest.responseText;
 				postaviMeni();
+				promjeniMod();
+				
 	  		}
 	 	}
 		
@@ -526,6 +533,44 @@ function logujKorisnika(forma) {
 		mypostrequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		mypostrequest.send("mail=" + mail + "&pass=" + pass);
 }
+
+
+function promjeniMod() {
+	
+	if(!korisnikPrijavljen) {
+		korisnikPrijavljen = true;
+	}
+	else {
+		korisnikPrijavljen = false;
+	}
+	promjeniTekstPrijava();
+}
+function logoutKorisnika() {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			var odg = xmlhttp.responseText;
+			korisnikPrijavljen = false;
+			prebaci("naslovnica.html");
+		}
+	}
+	xmlhttp.open("GET","logout.php", true);
+	xmlhttp.send();
+}
+
+function promjeniTekstPrijava() {
+	var dugme = document.getElementById("prijavaDugme");
+	if(korisnikPrijavljen) {
+		dugme.innerHTML = "Log out";
+		dugme.onclick = function() { logoutKorisnika(); };
+	}
+	else {
+		dugme.innerHTML = "Prijava";
+		dugme.onclick = function() { prebaci("prijava.html"); };
+	}
+}
+
+
 
 function dodajNovost(forma) {
 	var naslov = forma.naslov_novosti.value;
