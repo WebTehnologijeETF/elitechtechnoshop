@@ -607,6 +607,73 @@ function dodajNovost(forma) {
 	}
 }
 
+
+function promijeniNovost(forma) {
+	var naslov = forma.naslov_novosti.value;
+	var autor = forma.autor_novosti.value;
+	var url = forma.slika_novosti.value;
+	var tekst = forma.tekst_novosti.value;
+	var detaljno = forma.detaljno_novosti.value;
+	var id = forma.id_novosti.value;
+
+	var validno = true;
+
+	if(naslov.trim() == "" || autor.trim() == "" || tekst.trim() == "" || id.trim == "") {
+		validno = false;
+	}
+
+	if(url == "")
+		url = "slike/prazno.png";
+
+
+
+	if(!validno) {
+		alert("Unos nije validan!");
+	}
+
+	else {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			alert("Uspjesno ste promijenili novost!");
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","novosti.php?akcija=promjena&naslov="+naslov+"&autor="+autor+"&url="+url+"&tekst="+tekst+"&detaljno="+detaljno+"&id="+id, true);
+	xmlhttp.send();
+	}
+}
+
+function obrisiNovost(forma) {
+	var id = forma.id_novosti.value;
+
+	var validno = true;
+
+	if(id.trim == "") {
+		validno = false;
+	}
+
+	if(!validno) {
+		alert("Unos nije validan!");
+	}
+
+	else {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			alert("Uspjesno ste obrisali novost!");
+		}
+	}
+	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
+	xmlhttp.open("GET","novosti.php?akcija=brisanje&id="+id, true);
+	xmlhttp.send();
+	}
+}
+
 function brisiKomentar(id, novostJSON) {
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
@@ -618,4 +685,30 @@ function brisiKomentar(id, novostJSON) {
 	//xmlhttp.open("GET","detaljno.php?akcija=upad&id=" + id, true);
 	xmlhttp.open("GET","detaljno.php?akcija=brisanje&id_kom="+ id +"&id=" + novostJSON.id + "&datum=" + novostJSON.datum + "&autor=" + novostJSON.autor + "&naslov=" + novostJSON.naslov + "&slika=" + novostJSON.slika + "&tekst=" + novostJSON.tekst + "&detaljno=" + novostJSON.detaljno, true);
 	xmlhttp.send();
+}
+
+function proizvodUbaciPodatke(id) {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			var proizvod = JSON.parse(xmlhttp.responseText);
+			populisiFormuZaNovost(proizvod);
+			event.preventDefault();
+			//var forma = document.getElementById('unos_novosti_form');
+			//forma.tekst_novosti.value = xmlhttp.responseText;
+		}
+	}
+
+	xmlhttp.open("GET","dajJedanProizvod.php?id=" + id, true);
+	xmlhttp.send();
+}
+
+function populisiFormuZaNovost(proizvod) {
+	var forma = document.getElementById('unos_novosti_form');
+	forma.id_novosti.value = proizvod.id;
+	forma.naslov_novosti.value = proizvod.naslov;
+	forma.autor_novosti.value = proizvod.autor;
+	forma.slika_novosti.value = proizvod.slika;
+	forma.tekst_novosti.value = proizvod.tekst;
+	forma.detaljno_novosti.value = proizvod.detaljno;
 }

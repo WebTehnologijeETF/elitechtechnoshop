@@ -28,11 +28,58 @@ if(isset($_GET['akcija'])) {
 
 
     }
+    elseif($_GET['akcija'] == "promjena") {
+        $naslov = $_GET['naslov'];
+        $autor = $_GET['autor'];
+        $tekst = $_GET['tekst'];
+        $slika = $_GET['url'];
+        $detaljno = $_GET['detaljno'];
+        $id = $_GET['id'];
+
+        $conn = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
+                $sql = $conn->prepare("update novost set naslov=?, autor=?, tekst=?, urlSlike=?, detaljno=? where id=?");
+                $sql ->bindParam(1, $naslov_n);
+                $sql ->bindParam(2, $autor_n);
+                $sql ->bindParam(3, $tekst_n);
+                $sql ->bindParam(4, $url_n);
+                $sql ->bindParam(5, $detaljno_n);
+                $sql ->bindParam(6, $id_n);
+
+                $naslov_n = $naslov;
+                $autor_n = $autor;
+                $tekst_n = $tekst;
+                $url_n = $slika;
+                $detaljno_n = $detaljno;
+                $id_n = $id;
+
+                if (!$sql->execute()) {
+                    print_r(mysql_error($conn));
+                    exit();
+                }
+    }
+    elseif($_GET['akcija'] == "brisanje") {
+        $id = $_GET['id'];
+
+        $conn = new PDO("mysql:dbname=elitech;host=localhost;charset=utf8", "root", "dbpass");
+                $sql = $conn->prepare("delete from novost where id= ?");
+                $sql ->bindParam(1, $id_p);
+
+                $id_p = $id;
+
+                if (!$sql->execute()) {
+                    $greska = $conn->errorInfo();
+                    print "SQL greška: " . $greska[2];
+                    exit();
+                }
+    }
+    else {}
 }
     session_start();
      if($_SESSION['tip_korisnika'] == "administrator") {
         print("
                     <form id='unos_novosti_form' action='' method='GET'>
+                    <label for='idNovosti'>Id:</label>
+                    <input id='idNovosti' name='id_novosti'>
                     <label for='naslov'>Naslov:</label>
                     <input id='naslov' name='naslov_novosti'>
                     <label for='autor'>Autor:</label>
@@ -44,6 +91,8 @@ if(isset($_GET['akcija'])) {
                     <label for='detaljno'>Detaljno:</label>
                     <textarea id='detaljno' name='detaljno_novosti' rows='7'></textarea>
                     <input type='button' id='novost_sbmt' name='unesi_novost' value='Unesi' onclick='dodajNovost(this.form);'>
+                    <input type='button' id='novost_dlt' name='brisi_novost' value='Obrisi' onclick='obrisiNovost(this.form);'>
+                    <input type='button' id='novost_chg' name='mijenjaj_novost' value='Promijeni' onclick='promijeniNovost(this.form);'>
                     </form>
                     ");
      }
@@ -80,7 +129,7 @@ if(isset($_GET['akcija'])) {
         $novost["detaljno"] = $detaljno;
 
         print("<div class = 'item'>
-            <img src ='".htmlentities($slika, ENT_QUOTES)."' alt = 'pr_slika'>
+            <img onclick='proizvodUbaciPodatke(".htmlentities($id, ENT_QUOTES).");' src ='".htmlentities($slika, ENT_QUOTES)."' alt = 'pr_slika'>
             <h3>".htmlentities($naslov, ENT_QUOTES)."</h3>
             <p class = 'datum'> Datum: ".htmlentities($datum, ENT_QUOTES)."</p>
             <p class = 'autor'> Autor: ".htmlentities($autor, ENT_QUOTES)."</p>
