@@ -533,3 +533,15 @@ td {
 #novost_dlt {
   margin-left: 20%;
 }
+
+#lista_korisnika {
+  margin-left: 3%;
+}
+
+.red_liste_korisnika {
+  width: 25%;
+}
+
+.panel_ikona_brisi {
+  float: right;
+}

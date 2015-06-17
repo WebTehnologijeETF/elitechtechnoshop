@@ -1,4 +1,5 @@
 var korisnikPrijavljen = false;
+//korisnikPrijavljen = provjeriPrijavu();
 
 window.onload = function() {
 	var slike = document.getElementsByClassName('greska_icon');
@@ -12,16 +13,22 @@ window.onload = function() {
 	meni.style.position = "absolute";
 	var c = document.getElementById("act").childNodes;
 	if(c[0].innerHTML === "Naslovnica") {
-		prikaziNovosti();
+		
+		prikaziNovosti(1);
+
 	}
 	
 }
 
-function prikaziNovosti() {
+function prikaziNovosti(num) {
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
 			document.getElementById("content").innerHTML = xmlhttp.responseText;
+			ubaciPanelDugme(num);
+
+
+				
 		}
 	}
 	xmlhttp.open("GET","novosti.php", true);
@@ -268,22 +275,71 @@ function prebaci(stranica) {
 			document.getElementById("page").innerHTML = xmlhttp.responseText;
 			postaviMeni();
 			promjeniTekstPrijava();
-			if(stranica === "katalog.html" || stranica === "registracija.html" || stranica === "prijava.html")
-				sakrijGreske();
 			if(stranica === "katalog.html")
-				ucitajProizvode();
-			if(stranica === "naslovnica.html")
-				prikaziNovosti();
+				//ucitajProizvode();
+				ucitajFormuKatalog();
+			else {
+					if(stranica === "registracija.html" || stranica === "prijava.html")
+						sakrijGreske();
+			
+					if(stranica === "naslovnica.html") {
+						prikaziNovosti(0);
+						return;
+						}
 
-
-
+					if(stranica === "adminPanel.html"){
+						//alert("kldskld");
+						ucitajKorisnike(0);
+					}	
+					else {
+						ubaciPanelDugme();
+					}
+					
+				}
 		}
 	}
 	xmlhttp.open("GET",stranica, true);
 	xmlhttp.send();
 }
 
+function ucitajKorisnike(num) {
 
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			//alert("AAAAVBBAAA");
+			document.getElementById("content").innerHTML = xmlhttp.responseText;
+
+			event.preventDefault();
+			if(num === 0)
+				ubaciPanelDugme();
+		}
+	}
+
+	xmlhttp.open("GET","dajKorisnikePanel.php", true);
+	xmlhttp.send();
+}
+
+function brisiKorisnika(id) {
+	var r = confirm("Da li ste sigurni da zelite obrisati ovog korisnika?");
+	if (r == true) {
+    	xmlhttp=new XMLHttpRequest();
+		xmlhttp.onreadystatechange=function(event){
+			if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+				if(xmlhttp.responseText === "ok") {
+					alert("Uspjesno ste obrisali korisnika!");
+					event.preventDefault();
+					ucitajKorisnike(1);
+				}
+			}
+		}
+
+		xmlhttp.open("GET","obrisiKorisnika.php?id=" + id, true);
+		xmlhttp.send();
+
+	} else {
+	}
+}
 
 function webService(grad, pb, validno) {
 	xmlhttp=new XMLHttpRequest();
@@ -400,6 +456,21 @@ function promjeniProizvod() {
 	
 }
 
+function ucitajFormuKatalog() {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			document.getElementById("forma_za_unos_proizvoda").innerHTML = xmlhttp.responseText;
+			event.preventDefault();
+			sakrijGreske();
+			ucitajProizvode();
+		}
+	}
+
+	xmlhttp.open("GET","formaKatalog.php", true);
+	xmlhttp.send();
+}
+
 function ucitajProizvode() {
 
 	xmlhttp=new XMLHttpRequest();
@@ -407,13 +478,73 @@ function ucitajProizvode() {
 		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
 			var lista = JSON.parse(xmlhttp.responseText);
 			populisiTabelu(lista);
+			ubaciPanelDugme();
 			event.preventDefault();
+			
+
 		}
 	}
 
 	xmlhttp.open("GET","http://zamger.etf.unsa.ba/wt/proizvodi.php?brindexa=16294", true);
 	xmlhttp.send();
 
+}
+
+function ubaciPanelDugme(num) {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+			var odgovor = xmlhttp.responseText;
+			if(odgovor === "yes") {
+				
+				var list_ee = document.getElementsByClassName("nav_right");
+				var list = list_ee[0];
+				var li = document.createElement("li");
+				var a = document.createElement('a');
+				var linkText = document.createTextNode("Admin panel");
+				a.appendChild(linkText);
+				a.onclick = function() { prebaci("adminPanel.html"); };
+				li.appendChild(a);
+				list.appendChild(li);
+				if(num) {
+					provjeriPrijavu(num);
+				}
+			}
+			event.preventDefault();
+			
+
+		}
+	}
+
+	xmlhttp.open("GET","provjeriAdmin.php", true);
+	xmlhttp.send();
+}
+
+
+function provjeriPrijavu(num) {
+
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(event){
+		if(xmlhttp.status === 200 & xmlhttp.readyState === 4) {
+
+			var odgovor = xmlhttp.responseText;
+			if(odgovor === "yes") {
+				korisnikPrijavljen = true;
+			}
+			else
+				korisnikPrijavljen = false;
+
+			if(num)
+				promjeniTekstPrijava();
+			event.preventDefault();
+			
+
+		}
+	}
+
+	xmlhttp.open("GET","provjeriLog.php", false);
+	xmlhttp.send();
 }
 
 function populisiTabelu(lista) {
@@ -560,6 +691,7 @@ function logoutKorisnika() {
 
 function promjeniTekstPrijava() {
 	var dugme = document.getElementById("prijavaDugme");
+	//korisnikPrijavljen = provjeriPrijavu();
 	if(korisnikPrijavljen) {
 		dugme.innerHTML = "Log out";
 		dugme.onclick = function() { logoutKorisnika(); };

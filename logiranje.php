@@ -81,9 +81,11 @@ else {
     session_start();
     $_SESSION['tip_korisnika'] = $password[0]['tip'];
     print("<h2>Uspješno ste se logirali</h2>");
+    if($_SESSION['tip_korisnika'] == "administrator") {
     print("<h4>Dodavanje novosti se radi na pocetnoj stranici, iznad samih vijesti.<br>
         Promjena i brisanje nisu uradjeni.<br>
         Brisanje komentara se radi na samim komentarima, klikom na crveni X pored</h4>");
+    }
 }
 
 ?>
